@@ -1,0 +1,43 @@
+"0","knitr::opts_chunk$set(echo = TRUE, size = ""footnotesize"")"
+"2","Warning messages:
+"
+"2","1: "
+"2","In readLines(con, warn = FALSE) :"
+"2","
+ "
+"2"," invalid input found on input connection 'Error de Especificacion.Rmd'
+"
+"2","2: "
+"2","In grep(""^(---|\\.\\.\\.)\\s*$"", input_lines) :"
+"2","
+ "
+"2"," input string 2 is invalid in this locale
+"
+"2","3: "
+"2","In grep(""^(---|\\.\\.\\.)\\s*$"", input_lines) :"
+"2","
+ "
+"2"," input string 3 is invalid in this locale
+"
+"2","4: "
+"2","In grep(""^(---|\\.\\.\\.)\\s*$"", input_lines) :"
+"2","
+ "
+"2"," input string 4 is invalid in this locale
+"
+"2","5: "
+"2","In grep(""^(---|\\.\\.\\.)\\s*$"", input_lines) :"
+"2","
+ "
+"2"," input string 15 is invalid in this locale
+"
+"2","6: "
+"2","In grep(""^(---|\\.\\.\\.)\\s*$"", input_lines) :"
+"2","
+ "
+"2"," input string 21 is invalid in this locale
+"
+"2","7: "
+"2","In grepl("":$"", front_matter) :"
+"2"," input string 1 is invalid in this locale
+"

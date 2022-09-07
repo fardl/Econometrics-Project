@@ -1,0 +1,32 @@
+{
+    "id": "6F05B70C",
+    "path": "/cloud/project/Apuntes_Econometria_FR.Rmd",
+    "project_path": "Apuntes_Econometria_FR.Rmd",
+    "type": "r_markdown",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1661961748798.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "292,30",
+        "scrollLine": "277",
+        "rmdVisualMode": "false",
+        "rmdVisualCollapsedChunks": "",
+        "rmdVisualModeLocation": "12071:6312",
+        "rmdVisualWrapConfigured": "true",
+        "docOutlineVisible": "0",
+        "docOutlineSize": "12"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1661981249,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1661981249137,
+    "read_only": false,
+    "read_only_alternatives": []
+}

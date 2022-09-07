@@ -1,0 +1,24 @@
+library(tseries)
+library(forecast)
+library(ggplot2)
+library(tstools)
+library(tidyverse)
+library(gridExtra)
+library(readxl)
+series_tiempo <- read_xlsx("series_tiempo.xlsx")
+inflacion <- ts(series_tiempo$Inflacion, freq=12, start=1985 )
+pib <- ts(series_tiempo$PIB, freq=4, start=1991, end= 2018 )
+
+a<- autoplot(inflacion)+
+  ggtitle("Inflación inter-anual, IPC República Dominicana")+
+  xlab("Tiempo")+
+  ylab("Porcentaje")+
+  theme_light()
+
+b<- autoplot(pib)+
+  ggtitle("PIB Real República Dominicana, 2007 =100")+
+  xlab("Tiempo")+
+  ylab("Indice")+
+  theme_light()
+
+grid.arrange(a,b, ncol=2)

@@ -1,0 +1,1101 @@
+---
+title: "Econometr?a"
+subtitle: "Apuntes y Demostraciones"
+author: |
+    | Francisco A Ram?rez
+    | Universidad Aut?noma de Santo Domingo
+    | (UASD)
+date: "Esta versi?n: Enero, 2019"
+lang: es
+documentclass: book
+output: 
+  pdf_document:
+    toc: true
+---
+
+```{r global_options, include=FALSE}
+
+knitr::opts_chunk$set(fig.pos = 'h')
+
+```
+
+
+# Advertencias:
+1. Estas notas no sustituyen las lecturas asignadas en la clase de los libros de referencia.
+
+2. La notaci?n sigue de cerca a la del libro de cabecera (Wooldridge: Introducci?n a la Econometr?a) y son para prop?sitos did?cticos.
+
+3. Estar?n siendo continuamente revisadas y se agradece cualquier observaci?n de errores y mejoras explicativas de las demostraciones.
+
+4. Cualquier error es de mi responsabilidad.
+
+
+#Introducci?n: 
+
+## ?De qu? trata la econometr?a?
+
+La econometr?a comprende un conjunto de herramientas estad?sticas y conceptuales utilizada en la evaluaci?n emp?rica de las hip?tesis provenientes de la teor?a econ?mica. La existencia de este instrumental se debe a la necesidad de dotar de validaci?n emp?rica a las relaciones causales que se deducen de los modelos econ?micos construidos con la teor?a. En ese sentido, la econometr?a al igual que otras herramientas en econom?a forma parte de la "caja de herramientas" del economista.
+
+En t?rminos formales, la econometr?a se presenta como la combinaci?n de las herramientas estad?sticas y matem?ticas, con las hip?tesis provenientes de la teor?a econ?mica. 
+
+```{r echo=FALSE,fig.cap="",fig.align='default',out.width='100%'}
+
+knitr::include_graphics('Fig_1.png')
+
+```
+
+
+El presente documento tiene como objetivo introducir a los estudiantes de econom?a al mundo de los m?todos emp?ricos utilizados en el proceso de investigaci?n econ?mica. La estrategia did?ctica consiste en presentar ejemplos y cuestionar sobre los elementos a tomar en cuenta para agotar la etapa empirica de un proyecto de investigaci?n de manera exitosa. Esto requiere: a) seleccionar el modelo apropiado, b) identificar la estrategia de estimacion apropiada al modelo seleccionado y c) seleccionar la estrategia de contraste adecuada y d) conocer el alcance y las limitaciones de los resultados obtenidos. 
+
+Todo comienza con una teor?a (ya sea contable, econ?mica o sociol?gica, por ejemplo). En econom?a suelen estar expresadas en t?rminos de funciones matem?ticas.Por ejemplo:
+
+$$C=f(p,I)$$
+Donde $f$ es una funci?n real, $C$ el consumo de un bien, $p$ el precio e $I$ el ingreso.
+
+En alg?n curso de econom?a, se analiz? el tipo de relaci?n (positiva, negativa o nula) existente entre estas variables. En la pr?ctica estamos interesados en saber "cu?nto" se relacionan estas variables. Por lo que una definici?n de econometr?a es:
+
+*el uso de la teor?a y datos de la econom?a, negocios, y de las ciencias sociales, junto con las herramientas de la estad?stica, para responder preguntas del tipo "cuanto*
+
+Otros ejemplos:
+
+- ?Cu?ndo incrementa el desempleo si el salario m?nimo es incrementado en x%?
+
+- ?Cu?ndo ser?a el incremento de la inflaci?n si el BC decidiera incrementar la cantidad de dinero en 10%?
+
+- ?En cu?nto se incrementar?an las ventas de cemento si el precio fuese reducido en x% y el gasto en publicidad aumentara en y%?
+
+- ?Cu?nto se reducir?a la tasa de inasistencia escolar a nivel de primaria si se implementaran cuatro campa?as de desparasitaci?n en las escuelas p?blicas de X regi?n?
+
+- ?Cu?nto se reducir?an los cr?menes de calle (asaltos) si se duplicara el salario a los polic?as?
+
+Entre otras preguntas muy interesantes.
+
+
+### Pasando del modelo econ?mico al modelo econom?trico:
+
+Son m?ltiples los factores que pueden incidir en una variable sobre la cu?l se tenga inter?s. Como recuerdan, los modelos econ?micos son una simplificaci?n de la realidad. La teor?a econ?mica describe el comportamiento 'promedio' o 'sistem?tico' del agente de inter?s.
+
+Una forma de pensar el paso del modelos econ?mico al modelo econom?trico es proponiendo que el comportamiento observado en los datos es la suma de ese componente sistem?tico y un componente impredecible y aleatorio. Es decir,
+
+$$C=f(p,I)+e$$
+Qu? representa $e$?
+
+- Todos los factores omitidos del modelo simple
+
+- Incertidumbre 
+
+Para terminar de obtener (*especificar*) el modelo econom?trico, hay que proponer una forma funcional a $f$ ????. La propuesta mas com?n es una funci?n lineal:
+
+$$f(p,I)=\beta_0+\beta_1p+\beta_2 I$$
+
+Por lo que el modelo econom?trico que vamos a estudiar es del tipo
+
+$$C=\beta_0+\beta_1p+\beta_2I+e$$
+Donde $\beta_0$, $\beta_1$ y $\beta_2$ son par?metros desconocidos que estimaremos usando datos econ?micos y una t?cnica econom?trico.
+La forma funcional representa una hip?tesis acerca de la relaci?n entre las variables y hay que determinar si es compatible con la teor?a econ?mica y los datos. Con el uso del modelo econom?trico y los datos, se hace inferencias acerca del mundo real y se aprende acerca del mismo en este proceso.
+
+A este proceso de aprendizaje usando los elementos mencionados se le denomina Inferencia Estad?stica e incluye:
+
+- Estimaci?n de los par?metros econ?micos
+
+- Predicci?n de los resultados econ?micos
+
+- Contraste (testing) de hip?tesis econ?micas.
+
+### Importancia:
+
+Forma parte fundamental de la formaci?n de un economista.
+
+Es la que en parte conecta lo que se aprende en los cursos de econom?a con lo que se aplica en la pr?ctica.
+
+
+###Alcance:
+
+No se limita a econom?a, sino a otras ?reas: an?lisis de negocios, mercadeo, finanzas, as? como al resto de las ciencias sociales
+
+
+## Estructura de los datos econ?micos
+
+Los datos provienen de dos fuentes:
+
+**1. Datos experimentales**
+
+Provienen de experimentos controlados. Escasos en econom?a  El valor de las variables independientes es fijo en muestras repetidas.
+
+
+**2. Datos no experimentales  u observacionales**
+
+Provienen de encuestas. Datos de todas las variables son colectadas simult?neamente.
+
+## Caracter?sticas de los datos econ?micos:
+
+Dependiendo del nivel de agregaci?n:
+
+- micro-datos: individuos, hogares y firmas.
+
+- macro-datos: agregaci?n de individuos, hogares y firmas a nivel local o nacional.
+
+Pueden representar un acervo o un flujo:
+
+- Flujo: resultado medido en un periodo de tiempo.
+
+- Acervo: medido en un punto particular del tiempo.
+
+Puede ser cuantitativa o cualitativa
+
+- Cuantitativa: en t?rminos num?ricos.
+
+- Cualitativos: en t?rminos de clasificaci?n. 
+
+
+## Tipos de datos en econom?a:
+
+Series de tiempo: datos colectados en un intervalo discreto de tiempo.
+
+```{r echo=FALSE,fig.cap="",fig.align='default',out.width='100%', fig.pos='h'}
+
+knitr::include_graphics('Fig_2.png')
+
+```
+
+
+Corte transversal: datos colectados  a partir de un n?mero determinado de unidades en un periodo de tiempo.
+
+```{r echo=FALSE,fig.cap="",fig.align='default',out.width='100%',fig.pos='h'}
+
+knitr::include_graphics('Fig_3.png')
+
+```
+
+Panel o longitudinales: datos colectados a partir de un n?mero de unidades en intervalos discretos de tiempo.
+
+
+## Dise?o y elaboraci?n de un proyecto emp?rico
+
+
+
+# Instrumental Matem?tico - Estad?stico
+
+## 1. Instrumental matem?tico b?sico.
+
+### 1.1.1	Operador de suma 
+
+El operador de suma permite representar en poco espacio la suma de muchos t?rminos de una misma categor?a.
+
+Si $\{x_i=1,...,n\}$ es una secuencia de n n?meros, entonces la suma de esta serie se puede representa como:
+
+$$x_1+x_2+...+x_n=\sum_{i=1}^nx_i$$
+
+ 
+$\sum$ representa el operador de suma. La expresi?n $\sum_{i=1}^nx_i$ se lee: *s?mense los valores de $x$ desde $x_1$ (primer valor de la secuencia) hasta $x_n$ (?ltimo valor de la secuencia).
+
+Algunas propiedades del operador:
+
+**Propiedad 1**: Para toda constante $k$:
+
+$$\sum_{i=1}^n k=k+k+...+k=nk$$
+
+**Propiedad 2**: Sea k una constante cualquiera, se cumple que:
+
+$$\sum_{i=1}^n kx_i=kx_1+kx_2+...+kx_n=k(x_1+x_2+...+x_n)=k\sum_{i=1}^nx_i$$
+
+ 
+
+**Propiedad 3**: Dado el siguiente conjunto de pares de n?meros $\{(x_i,y_i):i=1,...,n\}$ y las constantes $a$ y $b$:
+
+$$\sum_{i=1}^n(ax_i+by_i)=a\sum_{i=1}^nx_i+b\sum_{i=1}^ny_i$$
+ 
+
+**Propiedad 4**: Sea a y b constantes y  $\{x_i=1,...,n\}$ una secuencia de $n$ n?meros, se cumple que:
+
+$$\sum_{i=1}^n(a+bx_i)=na+b\sum_{i=1}^nx_i$$
+
+Los siguientes usos del operador de suma no son v?lidos:
+
+1.	La suma de razones no es igual a la raz?n de las sumas:$\sum\frac{x_i}{y_i}\neq\frac{\sum x_i}{\sum y_i}$ (lo mismo aplica con el producto de dos series).
+
+2.	Salvo en casos especiales, la suma de los cuadrados no es igual al cuadrado de las sumas: $\sum x_i^2\neq(\sum x_i)^2$ 
+
+
+Algunos conceptos muy ?tiles surgen del empleo del operador de sumas, por ejemplo:
+
+
+a)	*Promedio o media (describe la tendencia central de un conjunto de datos)*: dados $n$ n?meros  $\{x_i=1,...,n\}$   este se obtiene sum?ndolos y despu?s dividiendo entre n.
+
+$$\bar{x}=\frac{1}{n}\sum_{i=1}^n x_i$$
+
+ 
+
+b)	*Desviaci?n*:  $d_i=x_i-\bar{x}$  Destacando que la suma de las desviaciones es siempre igual a cero. (Tarea: demuestre esa propiedad).
+
+c)	Otras son: *la suma de desviaciones al cuadrado, etc*.
+
+
+### 1.1.2	Funciones. Tipos y propiedades.
+
+En la presente secci?n se repasa el concepto de funci?n y sus propiedades. Se asume que el estudiante tiene conocimientos preliminares de an?lisis real y c?lculo. Aunque lo presentado en estos apuntes  es suficiente para la discusi?n de la materia, se le motiva a revisar la literatura citada en la bibliograf?a del capitulo.
+
+Se llama funci?n (o mapeo) $f$ ) a una regla que relaciona el comportamiento de una determina variable al de otra u otras variables. 
+
+Formalmente, *una funci?n f  de un conjunto A en un conjunto B es una regla de correspondencia que asigna a cada elemento de x  en A un ?nico elemento determinado en B.* 
+
+En econometr?a, el concepto de funci?n es esencial, porque la mayor?a de los modelos (y todos los que veremos aqu?) vienen representados como relaciones funcionales entre variables.
+
+Existen diversos tipos de funciones. Para un detalle de la definici?n de funci?n y los tipos de funciones ver  Knut, et. al. (An?lisis Matem?tico para Economistas) y Chiang, A. (M?todos Fundamentales en Econom?a Matem?tica).
+
+En el presente repaso, nuestro inter?s se concentra en dos tipos de funciones: lineales y no-lineales. Dentro de las no-lineales: cuadr?tica, logar?tmica y exponencial.
+
+1.1.2.1	Funciones lineales.
+
+Este tipo de funciones son de mucha importancia en el an?lisis econom?trico por su sencillez en la manipulaci?n e interpretaci?n de resultados. Constituyen la principal herramienta de casi todo el estudio de la econometr?a que realicemos en este curso introductorio.
+
+La funci?n lineal m?s sencilla viene dada por:
+
+$$y=\beta_0+\beta_1x$$
+ 
+
+La expresi?n anterior se lee: * y es una funci?n lineal de x y $\beta_0$ y $\beta_1$ son los par?metros que describen la 'intensidad'  de esa relaci?n*. $\beta_0$ es conocido como el intercepto y $\beta_1$ como la pendiente.
+
+```{r}
+x<-seq(0,100)
+y<-10+0.5*x
+plot(x,y,"l",main="y=10+0.5 x")
+```
+
+Una caracter?stica interesante de las funciones lineales que el cambio en $y$ es siempre $\beta_1$ veces el cambio en $x$:
+
+$$\Delta y=\beta_1\Delta x$$
+
+Donde $\Delta$ denota cambio. Tambi?n se dice que $\beta_1$ es el *efecto marginal* de $x$ sobre $y$.
+
+
+#### Ejemplo 1. Consumo de Gasolina
+
+$$gasolina=100-0.23~precio$$
+*La funci?n anterior nos da la siguiente informaci?n:*
+
+*1. Existe una relaci?n lineal entre el consumo de gasolina y su precio.*
+
+*2. Dicha relaci?n es negativa, sugiriendo que si el precio de la gasolina se incrementa en 10$ el consumo de de gasolina caer? en promedio $0.23\times10=2.3$ galones diarios.*
+
+*3. En el caso contingente de que el precio de este combustible fuera cero, el consumo alcanzar?a un m?ximo de 100 galones por d?a.*
+
+
+
+
+Existen casos donde la variable y (tambi?n conocida como "del lado izquierdo" o como "dependiente") se relaciona no solo contra la variable x, sino contra un conjunto de variables que determinan su comportamiento. 
+
+En ese contexto, el efecto de una variable independiente (como se conoce a los componentes de x) sobre la dependiente suele llamarse efecto parcial, significando que se impone el supuesto de que el resto de las variables permanecen inalteradas (esto es: dejar los dem?s factores fijos o incorporar el supuesto de ceteris paribus).
+
+
+#### Ejemplo: Oferta Laboral 
+
+$$L_i=1.2+0.5~w_i-0.03~\tau_i$$
+
+*Siendo L el n?mero de horas de trabajo efectivo de un individuo, w el salario real y $\tau$ la tasa de impuesto marginal impl?cita a las horas trabajadas. *
+
+*El efecto parcial de un incremento en el salario es analizado haciendo el supuesto que ?? se mantienen constante. De esta forma, un incremento de 10% en el salario real, manteniendo constante ??, incrementa el n?mero de horas trabajadas en aproximadamente 5%. *
+
+*Tarea: interprete un incremento en ??, manteniendo w constante.*
+
+
+1.1.2.2	Funciones no -  lineales:
+
+El otro grupo de funciones de nuestro inter?s es la familia de funciones no lineales. Nos concentraremos en tres de este tipo de funciones por ser las de mayor uso en la model?stica econom?trica: cuadr?tica, logar?tmica y exponencial.
+
+Funci?n cuadr?tica: La principal caracter?stica, para nuestros prop?sitos, de este tipo de funci?n es que ahora el efecto marginal o parcial de la variable dependiente va a depender de la condici?n inicial de esta. Esto es muy interesante porque nos va a permitir diferenciar el efecto, por ejemplo, de la educaci?n sobre los ingresos futuros de individuos con diferentes caracter?sticas (por ejemplo, experiencia). 
+
+Otro ejemplo que muestra la utilidad de esta funci?n, es la llamada curva de Phillips o de disyuntiva entre inflaci?n y desempleo: puesto que se observa un comportamiento "no lineal" en la inflaci?n, esto es que un nivel de desempleo puede ser compatible con m?s de un nivel de inflaci?n.
+
+El an?lisis de dichas funciones requiere un uso de las t?cnicas de c?lculo diferencial que veremos m?s adelante.
+
+Un ejemplo de funci?n cuadr?tica es:
+
+
+$$y=\beta_0+\beta_1x+\beta_2x^2$$
+
+
+En este caso el efecto marginal es una funci?n del valor de x, esto es $\frac{\Delta y}{\Delta x}=\beta_1+2\beta_2 x$  , y por lo tanto el "estado" de la variable independiente influir? de forma "condicional" sobre $y$. 
+
+
+Para ilustrar la forma de este tipo de funciones, en el siguiente grafico se muestra un ejemplo.
+
+```{r}
+x<-seq(-10,10)
+y<-0.5+0.4*x+0.3*x^2
+plot(x,y,"l",main=" Grafica de: y<-0.5+0.4*x+0.3*x^2")
+```
+
+
+#### Ejemplo: Modelo de Mincer, o de retornos de la educaci?n.
+
+En el estudio de los retornos econ?micos de la educaci?n, suele utilizarse como punto de partida el modelo de Mincer (196xx). Este relaciona los retornos de la educaci?n a variables como los a?os de escolaridad y el tipo de educaci?n y controla los efectos de variables como la experiencia. La teor?a sugiere que si bien la experiencia es una variable importante en la determinaci?n del ingreso de los individuos, esta tiene un comportamiento no lineal, o de rendimientos decrecientes, debido a la existencia de factores de desgaste f?sico y obsolescencia. Formalmente, el modelo b?sico tendr?a la siguiente especificaci?n.
+
+$$ingresos_i=\beta_0+\beta_1educacion_i+\beta_2 experiencia+\beta_3 experiencia^2_i$$
+ 
+El coeficiente $\beta_3$   captura el efecto mencionado.
+
+
+
+*Funci?n logar?tmica natural*: Es la funci?n lineal que desempe?a el papel m?s importante en el an?lisis econom?trico. Suele expresarse con las siguientes nomenclaturas:
+
+$$y=\log(x)$$
+
+$$y=\ln(x)$$
+  
+Esta funci?n est? definida solo para $x>0$. Para nuestros prop?sitos, siempre nos referiremos al logaritmo natural.
+
+```{r}
+x<-seq(1,35)
+y<-log(x)
+plot(x,y,"l",main=" Grafica de: y=ln(x)")
+```
+
+
+Algunas propiedades de la funci?n logar?tmica que son importantes de recordar son:
+
+$$ln(x_1\times x_2)=ln(x_1)+ln(x_2),~~~x_1,x_2>0$$
+
+$$ln(x_1/ x_2)=ln(x_1)-ln(x_2),~~~x_1,x_2>0$$
+
+
+$$ln(x^c)=c~ln(x),~~~x>0, c ~ cualquier~~n?mero$$
+El diferencial logar?tmico se puede utilizar como un aproximado de la variaci?n porcentual, siendo un instrumento conveniente en el c?mputo de tasas de crecimiento.
+
+$$log(x_1)-log(x_0)=\frac{(x_1-x_0)}{x_0}=\frac{\Delta x}{x_0}$$
+
+Esta propiedad resulta muy ?til en cuanto nos permite representar la "sensibilidad" relativa de una variable respecto a los cambios peque?os en otra, lo que en los cursos de microeconom?a conocieron por el nombre de "elasticidad". Formalmente se define como el cambio porcentual de y respecto a x cuando este ?ltimo var?a 1%. Esto es:
+
+$$\frac{\Delta y}{x}\times\frac{x}{y}=\frac{\%\Delta y}{\%\Delta x}\approx \frac{\Delta \log(y)}{\Delta\log(x)}$$
+
+
+Esto implica que un modelo econom?trico, que adopte del modelo te?rico que lo sustenta el supuesto de "elasticidad constante", el coeficiente estimado asociado puede interpretarse como una elasticidad.
+
+$$log(y)=\beta_0+\beta_1 log(x)$$
+Otra posibilidad es el modelo "log-lineal" por tener ambos componentes:
+
+$$log(y)=\beta_0+\beta_1x$$
+Se deja como ejercicio calcular la elasticidad de y respecto a x.
+
+
+#### Ejemplo: Elasticidades en la funci?n de producci?n:
+
+En teor?a del crecimiento suele utilizarse la funci?n de producci?n de rendimientos constantes a escala, y suponerse elasticidades insumo - producto  constantes debido a sus propiedades anal?ticas. Una muy famosa es la funci?n Coob-Douglas.
+
+$$Y=AK^{\alpha}L^{1-\alpha}$$
+
+En los estudios emp?ricos suele utilizarse como aproximaci?n la transformaci?n en un modelo logar?tmico la ecuaci?n anterior.
+
+$$y=\beta_0+\beta_1k+\beta_2 l$$
+ 
+
+Donde y es ln(Y), k el ln(K) y l el ln(L). En esta versi?n, los coeficientes asociados son interpretaos como las elasticidades del trabajo y el capital, y suelen interpretarse con el incremento porcentual del producto por un incremento de 1% en uno de los factores, manteniendo el resto constante. La constante se puede interpretar como una aproximaci?n del crecimiento promedio de la productividad total de factores (PTF) durante un periodo determinado. Si en el modelo se supone rendimientos constantes a escala (i.e. el producto no incrementa m?s que proporcionalmente que el incremento de los factores), entonces es posible restringir el valor de los coeficientes a que sumen 1, o alternativamente testear la hip?tesis conjunta con uno de los m?todos de contraste de hip?tesis que veremos, el supuesto de rendimientos constantes a escala. Un ejercicio interesante, que aprenderemos como realizarlo en el modulo de series de tiempo de este curso, es testear la estructura de los residuos de este modelo en busca que rendimiento crecientes a escala o la omisi?n de alguna variable que aporte informaci?n al proceso de determinaci?n del crecimiento y nivel del producto en una econom?a determinada.
+
+
+Funci?n exponencial: Otro tipo de funci?n es la exponencial. Gr?ficamente se puede observar su comportamiento
+
+
+
+```{r}
+x<-seq(1,35)
+y<-exp(x)
+plot(x,y,"l",main=" Grafica de: y=exp(x)")
+```
+
+
+Este tipo de funciones suelen tener la siguiente especificaci?n:
+
+$$y=exp(\beta_0+\beta_1 x) $$
+
+$$y=e^{(\beta_0+\beta_1x)}$$$
+
+Aunque son interesantes desde el punto de vista de representaci?n de fen?menos econ?micos tales como demandas por "saldos reales", es posible simplificarlos mediante linealizaciones logar?tmicas y facilitar su implementaci?n emp?rica.
+
+
+
+
+1.1.3	Proporciones y porcentajes
+
+Estos conceptos son de importancia prima en nuestro curso de econometria, ya que muchos resultados, estadisticas y noticas son expresados en estos. Una proporcion viene definida como el peso o representacion relativo de elementos de la misma categoria dentro de un grupo determinado. Por ejemplo, en una canasta donde existen 10 frutas: 1 manzana, 3 mangos, 5 guayabas y 1 zapote, tenemos que el "grupo" es frutas y los elementos son cada una de estas. En terminos de proporciones las manzadas son 0.1 (=1/10) del total, los mangos 0.3 (3/10), 0.5 (=5/10=1/2) las guayabas y 0.1(=1/10) el zapote.
+
+El porcentaje no es mas que la multiplicacion de una proporcion por 100. En el ejemplo se tendria que 10% (=0.1*100) del total de frutas es el porcentaje de manzanas en la canasta y asi sucesivamente.
+
+Muchas cifras son expresadas en porcentajes: tasas de interes, desempleo, mujeres en la fuerza de trabajo, etcetera. 
+
+
+Hay que tener cuidado a la hora de interpretar un porcentaje. Por ejemplo, en las estadisticas deportivas, suelen a aparecer enunciados como este "Alex Rodriguez est? bateando con porcentaje de 0.375", cuando en realidad a lo que se refiere es que su bateo es de 37.5% del total de intentos que realiza en el diamante.
+
+
+1.1.4	Nociones de c?lculo diferencial.
+
+En esta seccion repasaremos el concepto de derivada y su importancia en el analisis econometrico. Es solo un repasdo breve, ya que se asume que el estudiante ha cursado alguna materia de analisis real. Para los que deseen actualizarse y refrescar los detalles pueden encontrar una introduiccion apropiada en el texto de Alpha Chiang (XXXX), aunque cualquier libro de analisis real y calculo diferencial es de utilidad.
+
+
+
+1.1.5	Nociones de algebra matricial.
+
+En esta secci?n introducimos el concepto de matriz, sus propiedades y aplicaciones destacando la relevancia para el an?lisis econom?trico de este instrumento matematico.
+B?sicamente, el algebra matricial facilita el an?lisis de modelos donde existen muchas variables independientes, de tal forma que la manipulaci?n matematica sea casi tan f?cil como en el caso del modelo bivariado. 
+En t?rminos practicos, se sugiere intuir el siginifcado de una matriz como un conjunto de datos, o matriz de datos que contiene informaci?n de inter?s para el investigador. Estos es, se puede colapsar un listado de variables en un solo objeto, llamado matriz y a trav?s de las propiedades en t?rminos operacionales obtener los mismos resultados que se obtendr?an que en el caso de trabajar con un conjunto de sumatorias y ecuacuaciones que pueden hacer el trabajo computacional muy tedioso.
+Otra importancia de incorporar y entender el algebra matricial orientada a nuestra materia, es que la mayor?a de los software econom?tricos resuelven matricialmente la estimaci?n de los modeos que se le introduzcan, muchas veces es algo que no se ve directamente ya que varios programas informaticos tienen menus que facilitan la entrada de datos,no onbstante basarse en la manipulaci?n de la matriz de datos.
+
+
+
+
+
+1.1.5.1	Definiciones b?sicas
+Formalmente, una matriz puede definirse como un ordenamiento rectangular num?rico, que en nuestro caso son datos e informaci?n. Una matriz contiene m  filas y n columnas y se dice que es de orden mxn. A m tambi?n se le conoce como la dimensi?n fila y a n dimensi?n columna.
+
+Se utilizan letras may?sculas para representar una matriz y min?sculas para los objetos de dicha matriz. Si $a_{ij}$  representa el elemento de la fila i-?sima  y la columna j-?sima, entonces una matriz nxm:
+
+$$A=\Big[a_{ij}\Big]=\left[\begin{array}{ccc} a_{11} &\ldots&a_{1m} \\\vdots&\ddots&\vdots\\ a_{n1} &\ldots& a_{n,m} \end{array}\right]$$
+
+
+Como ejemplo t?ngase la siguiente matriz 2x3:
+
+$$A=\left[\begin{array}{ccc} 3&-1&2 \\8&5&1\end{array}\right]$$
+
+De esta forma, el elemento $a_{23}=1$
+
+
+
+Cuando la matriz tiene el mismo numero de filas y columnas, se denomina matriz cuadrada.
+en el caso de que existan 1 fila y m columnas (1xm) se llama  vector fila, y cuando es n filas y 1 columna (nx1) es un vector columna, que se puede escribir como:
+
+
+$$y=\left[\begin{array}{c}y_1\\y_2\\y_3\\ \vdots \\ y_n \end{array}\right]$$
+
+Si la matriz es cuadrada y los elementos fuera de la diagonal son cero, entonces se dice que es una matriz diagonal 
+
+$$A=\left[\begin{array}{cccc} a_{11} & 0 & \ldots & 0 \\ 0 & a_{22} & \ldots & 0 \\ \vdots & & \ddots & \\ 0 & 0 & \ldots & a_{nm} \end{array}\right]$$
+
+Un caso especial es la matriz identidad, la cual tiene en la diagonal solo unos y en el resto ceros. Literalmente es elemento unitario en el mundo de las matrices suele representarse por I. La matriz cero es aquella cuyo todos elementos son cero y no necesariamente tiene que ser una matriz cuadrada.
+
+
+1.1.5.2	Operaciones matriciales
+
+Suma Matricial: Solo es posible entre matrices de igual dimensi?n (esto es filas y columnas). Sean A y B dos matrices de dimensi?n nxm, entonces:
+
+
+$$A+B=\left[\begin{array}{cccc}
+a_{11}+b_{11} & a_{12}+b_{12} & \ldots & a_{1n}+b_{1n} \\
+a_{21}+b_{21} & a_{22}+b_{22} & \ldots & a_{2n}+b_{2n} \\
+\vdots & \vdots  & \ddots  & \vdots  \\
+a_{m1}+b_{m1} & a_{m2}+b_{m2} & \ldots & a_{mn}+b_{mn}
+\end{array}\right]$$
+
+
+Ejemplo.
+
+
+Multiplicacion por un escalar: se multiplica cada elemento de la matriz por el escalar.
+
+
+$$\alpha A=\left[\begin{array}{cccc}
+\alpha a_{11} & \alpha a_{12} & \ldots & \alpha a_{1n}  \\
+\alpha a_{21} & \alpha a_{22} & \ldots & \alpha a_{2n}  \\
+\vdots & \vdots  & \ddots  & \vdots  \\
+\alpha a_{m1} & \alpha a_{m2} & \ldots & \alpha a_{mn}
+\end{array}\right]$$
+
+
+
+Multiplicacion matricial: el requisito para poder aplicar la multiplicaci?n entre matrices, es que la dimension columna de la matriz que premultiplica sea igual a la dimensi?n fila de la matriz que posmultiplica. La matriz resultante ser? de dimensi?n fila de la matriz que premultiplica y dimensi?n columna de la que posmultiplica.  Esto implica que cada elemento de la nueva matriz es la suma de productos de cada fila de la matriz que premultiplica por cada columna de la que posmultiplica.
+Formalmente, sea A una matriz de orden nxp y B una de dimensi?n pxm. Si realizamos la multiplicaci?n de AB obtendremos una matriz (digamos C) de roden nxm. Noteses que en este caso no es posible BA ya que no se cumple el requisito, no obstante si fuesen matrices cuadradas se cumple la ley conmutativa.
+
+
+Esquem?ticamente se puede ver lo anteriormente explicado:
+
+
+Sea $A=\left[\begin{array}{cc} a_{11} & a_{12}\\ a_{21} & a_{22} \end{array}\right]$ una matriz $2\times 2$  y $B=\left[\begin{array}{cccc} b_{11} & b_{12} & b_{13}\\ b_{21} & b_{22} & b_{23} \end{array}\right]$ una matriz de orden 2x3. Estas matrices cumplen las condiciones para generar el producto AB que genera una matriz de orden 2x3.
+
+
+$$AB=\left[\begin{array}{cc} a_{11} & a_{12}\\ a_{21} & a_{22} \end{array}\right] \left[\begin{array}{cccc} b_{11} & b_{12} & b_{13}\\ b_{21} & b_{22} & b_{23} \end{array}\right] =\left[\begin{array}{cccc} a_{11}b_{11}+a_{12}b_{12} & a_{11}b_{12}+a_{12}b_{22} & a_{11}b_{13}+a_{12}b_{23}\\ a_{21}b_{11}+a_{22}b_{12} & a_{21}b_{12}+a_{22}b_{22} & a_{21}b_{13}+a_{22}b_{23} \end{array}\right]$$
+
+En general,
+
+
+$$\left[\begin{array}{ccccc}a_{i1} & a_{i2} & a_{i_3}&\ldots & a_{in} \end{array}\right]\left[\begin{array}{ccccc}b_{i1} \\ b_{i2} \\ b_{i_3} \\ \vdots \\ b_{in} \end{array}\right]=\Big[\sum_{k=1}^na_{ik}b_{kj}\Big]$$
+
+Algunas propiedades de la multiplicaci?n matricial son: 
+
+a) $(\alpha+\beta)A=\alpha A + \beta A$
+
+b) $\alpha(A+B)=\alpha A + \alpha B$
+
+c) $(\alpha \beta) A=\alpha(\beta A)$
+
+d) $\alpha(AB)=(\alpha A)B$
+
+e) $A+B=B+A$
+
+f) $(A+B)+C=A+(B+C)$
+
+g) $(AB)C=A(BC)$
+
+h) $A(B+C)=AB+AC$
+
+i) $(A+B)C=AC+BC$
+
+j)	$IA=AI=A$, donde $I$ es la matriz identidad
+
+k)	$A+0=0+A=A$
+
+l)	$A-A=0$
+
+m)	$A0=0A=0$
+
+n)	$AB \neq BA$
+
+- Transposicion: la transopuesta de la matriz $A$, representada por $A'$ ($A$ prima), es la matriz que resulta de intercambiar las filas y las columnas de $A$. Por ejemplo, 
+
+$$A=\left[\begin{array}{ccc} b_{11}&b_{12}&b_{13}\\ b_{21}&b_{22}&b_{23}\end{array}\right]$$
+
+$$A'=\left[\begin{array}{cc} b_{11} & b_{21}\\b_{12} & b_{22}\\b_{13} & b_{23}\end{array}\right]$$
+
+- Propiedades de la transposici?n:
+
+a)	$(A')'=A$
+
+b)	$(\alpha A)'= \alpha A'$
+
+c)	$(A+B)'= A'+B'$
+
+d)	$(AB)'=B'A'$
+
+e)	Si $x$ es un vector $nx1$, entonces $x'x=\sum_{i=1}^n x_i^2$
+
+f)	Si $A$ es una matriz dada por los vectores $1 \times k$, $a_1,a_2,\ldots,a_n$, tal que:
+
+$$A=\left[\begin{array}{c} a_1 \\a_2 \\ \vdots\\ a_n \end{array}\right]$$
+
+- Entonces $A'=(a_1,a_2,\ldots,a_n)$
+
+
+- Matriz sim?trica. Es aquella cuya transpuesta es ella misma, $A'=A$.
+
+- Traza. Es una operaci?n solo para matrices cuadradas. La traza se obtiene simplemente sumando los elementos de la diagonal. Sea A una matriz cuadrada, entonces:
+
+$$tr(A)=\sum_{i=1}^n a_{ii}$$
+
+- Propiedades
+
+a)	$tr(I)=n$
+
+b)	$tr(A)=tr(A')$
+
+c)	$tr(A+B)=tr(A)+tr(B)$
+
+d)	$tr(\alpha A)=\alpha tr(A)$
+
+e)	$tr(AB)=tr(BA)$
+
+
+
+Inversa. Es una operaci?n muy importante para nuestros prop?sitos. En el algebra matricial, es "casi" el equivalente a la divisi?n en el mundo de los escalares.  Sea $A$ una matriz cuadrada, entonces su inversa se denota por   Ademas se tiene que $AA-1=I$. Es equivalente decir matriz invertible que matriz no singular. Una matriz singular es aquella que no es invertible, es decir, que pueden existir filas o columnas que se puedan obtener de alguna combinaci?n lineal del resto.
+
+- Propiedades de la inversa:
+
+a)	Si existe una inversa es unica
+
+b)	$(\alpha A)^{-1}=(1/\alpha )A^{-1}$
+
+c)	$(AB)^{-1}=B^{-1}A^{-1}$
+
+d)	$(A')^{-1}=(A^{-1})'$
+
+
+Sobre la mec?nica de c?lculo se remite al estudiante interesado al libro de Alpha Chiang (2006), o a cualquier libro de algebra matricial. Se trabajar? con la inversa asumi?ndola como tal, ya que sin p?rdida de generalidad se puede comprender el contenido de nuestro inter?s. Adem?s, el uso de computador ha facilitado el c?mputo de inversas, no obstante se recomienda abundar sobre esa literatura ya que despu?s de todo hay que conocer el origen de todo lo que uno estudia.
+
+1.1.5.3	Independencia lineal y rango de una matriz
+
+1.1.5.4	Formas cuadr?ticas y matrices definidas positivas
+
+1.1.5.5	Matrices idempotentes
+
+1.1.5.6	Diferenciacion matricial
+
+1.1.5.7	Momentos y distribuciones de vectorios aleatorios (esta parte va con la parte estad?stica)
+
+
+
+## 1.2	Fundamentos de probabilidad
+
+
+1.2.1	Variables aleatorias y distribuciones de probabilidad.
+
+El concepto de variable aleatoria descansa en la definici?n de lo que es un experimento. En teor?a de probabilidades, un experimento se define como un procedimiento que puede, al menos en teor?a, repetirse un n?mero infinito (esto es muy grande)  bajo las mismas condiciones y que tiene un conjunto de resultados bien definido (esto es, se conocen todos los resultados que posiblemente puedan ocurrir). 
+
+Un ejemplo puede ayudar a entender la definici?n de experimento: suponga una moneda bien calibrada (esto es que no est? alterada), se puede realizar el experimento de lanzarla 10 veces  y contar el numero de veces que sale cara. En este caso, el juego anterior cae en la categoria de experimento, primero porque se puede repetir hasta el cansancio el mismo experimento y segundo, se sabe bien cual es el conjunto de resultados posible que en nuestro ejemplo es un numero de 0 a 10.
+
+Visto lo anterior, el valor num?rico determinado por el experimento es asignado a una  funcion conocida como variable aleatoria. Esta se encarga de enlistar el resultado final, en formato cuantitativo, el resultado de cada ronda del experimento.
+
+En nuestro ejemplo del experimento del lanzar 10 veces una moneda y observar cuantas caras salieron, ese n?mero de caras es una variable aleatoria. Si bien sabemos que la cantidad de caras que podr?an salir es un n?mero que esta entre 0 y 10, en rigor no sabemos cuantas caras saldr?n cada vez que se repita el experimento y de ah? el apellido de aleatoria.
+
+Otro concepto importante para caracterizar completamente a una variable aleatoria es el de probabilidad. El desarrollo de la teor?a de probabilidades en el siglo XX ha derivado el concepto de probabilidad a un nivel de abstracci?n que escapa al nivel de este curso introductorio. Para nuestros propositos, vamos a entender por probabilidad una medida que informa sobre la ocurrecia de un hecho, o en nuestro campo de estudio, de realizaci?n de la variable aleatoria y vamos a acotar el valor que pueda tomar esta medida a valores entre 0 y 1, siendo probabilidad 0 cuando con certeza sabemos que ese resultado no es posible bajo las condiciones dadas, y 1 cuando la informaci?n que se posee es absoluta y permite saber con certeza lo que va a ocurrir. Ademas, las probabilidades de todos los resultados posibles de un experimento deben sumar uno para que esten bien definidas (de lo contrario faltarian eventos). Por intuici?n, los valores entre ambas cotas (0 y 1) reflejan grados de ocurrencia o no ocurrencia del resultado. Para un concepto mas elaborado y avanzado del concepto de probabilidades vease Greene (2003) y Davison (1994) o cualquir otro libro de teoria de probabilidades.
+
+En resumen, las propiedades de una variable aleatoria son cuatro:
+
+1. adopta  un solo valor espec?fico
+
+2. no sabemos de antemano que valor adoptar?
+
+3. pero si conocemos los valores que puede adoptar
+
+4. conocemos la probabilidad de que adopte alguno de esos valores posibles.
+
+En t?rminos de nomenclatura, denotaremos con letras may?sculas las variables aleatorias (usualmente se usan $W,X,Y,Z$) y los valores que esta toma con letras min?sculas (usualmente se usan $w,x,y,z$). En nuestro ejemplo de experimento de la moneda, se puede definir como X la cantidad de caras obtenidas en los 10 lanzamientos de la misma.
+
+De acuerdo a nuestra definici?n de variable aleatoria, $X$ tomar? uno de los valores del conjunto ${0,1,2,.,10}$. Por ejemplo, puede tomar $x=6$.
+
+Si existe una cantidad de variables aleatorias grande (del mismo tipo o no), entonces se utilizan sub indices: $X1, X2,.,XN$. Por ejemplo, si se elige aleatoriamente 100 hogares de la provincia santo domingo y se obtiene el gasto en bancas de loteria, estas variables aleatorias se denotar?n como $X1, X2, ., X100$ y los valores particulares que estas tomaran como $x1, x2, ., x100$.
+
+Se pueden identificar dos tipos de variables aleatorias:
+
+
+a) Variables aleatorias discretas. Son aquellas que pueden tomar una cantidad finita o una cantidada infinita contable de valores. Por infinita contable nos referimos al caso donde la variable toma como valores numeros enteros aunque tienda a infinito.
+El ejemplo mas sencillo de variable aleatoria discreta, es la de Bernoulli  donde lo unico que se necesita para describir el comportamiento de una variable aleatoria de Bernoulli es la probabilidad que la variable tome el valor uno. 
+
+En el ejemplo de las monedas, si esta es "legitima" entonces $P(X=1)=1/2$, que se lee "probabilidad de que X sea igual a uno es un medio". Y dado que las probabilidades deben sumar uno $P(X=0)=1-P(X=1)=1/2$.
+
+
+En casos mas generales, el conocimiento de la probabilidad de que una variable de bernoulli se realice no es evidente, sino que esta puede tomar un numero cualquiera entre 0 y 1. En estos casos se suele expresar como:
+
+
+$$P(X=1)=\theta$$
+
+$$P(X=0)=1-\theta$$
+
+
+Donde $\theta$ es un numeor entre cero y uno. En este caso  para conocer $\theta$, que es lo mismo que decir, conocer la probabilidad de que X sea igual a uno, hay que utilizar metodos de estimacion tales como los que veremos en el apartado sobre estadistica matematica.
+
+Las variables aleatorias discretas no solamente son del tipo de bernoulli, sino que pueden tomar mas de dos valores. En general, se puede definir ${x1, x2,.,xk}$ como el conjunto de k valores que puede tomar la variable aleatoria X, y p1, p2, ., pk las probabilidades asociada a cada una de los valores que podria tomar X. de esta forma,
+$pj=P(X=xj)$,$j=1,2,.,k$ ( que se lee " probabilidad de que X tome el valor xj es igual a pj)
+donde cada pj esta entre 0 y 1 y $p1+p2+.+pk=1$.
+
+Discutiendo algo de nomenclatura, cuando se quiere decir que una variable tiene una distribuci?n de Bernoulli se escribe X ~ Bernouilli (??) que se llee "X tiene una distribuion de Bernoulli con probabilidad de ?xito ??".
+
+Existe un concepto muy importante para nuestros propositos que relaciona las definicones de variable aleatoria y proabilidad. Se conoce como funcion de densidad de probabilidad (fdp) a aquella que resume la informaci?n de los valores que puede tomar X y la probabilidad asociada a cada uno de esos valores. Formalmente, 
+
+
+
+$f(xj)=pj, j=1,2,.,k.$
+
+
+con $f(x)=0$ para toda x distinta de xj para alguna j (que es lo mismo que decir, cualquier resultado que no este considerado parte del conjunto de resultados posibles del experimento sobre el cual se define la variable aleatoria nunca ocurrir?).
+
+Dada $f(x)$ de cualquier variable aleatoria se puede calcular la probabilidad de cualquier evento relacionado con esa variable aleatoria. 
+
+Ejemplo: suponga que X es la cantidad de tiros libres anotados por un jugador de baloncesto en dos intentos, entonces X puede tomar los siguientes valores {0,1,2}, es decir, puede fallar ambos {0}, encestar solo uno {1}, o encestar ambos tiros {2}. Supongase que la fdp de X est? definida por 
+
+$f(0)=0.20, f(1)=0.44 y f(2)=0.36$
+
+?C?mo se obtuvieron estos valores de las probabilidades? En la siguiente seccion veremos c?mo. Por ahora supongamos que un experto en estadisticas deportivas nos las dijo. Observe que las probabilidades suman uno.
+
+Con ese conocimiento de la fdp de X, podemos calcular la probabilidad de cualquier evento relacionado a la variable aleatoria. Asi la probabilidad de que el jugador anote por menos un tiro libre, $P(X>=1)=P(X=1)+P(X=2)=0.44+0.36=0.80$.
+
+Graficamente se puede ilustrar el comportamiento de esta funcion,
+
+
+
+Con este tipo de grafico nos encontraremos cuando trabajemos con variables aleatorias discretas. Algo importante de destacar y que facilitara el trabajo en terminos de imaginaci?n es que la forma de la funcion en terminos graficos, suele asignarsele nombre. Esta idea quedara mas fija cuando veamos el caso de las variables aleatorias continuas.
+
+b) variables aleatorias continuas
+en este caso el concepto es un poco mas acabado en terminos de imaginaci?n, en el sentido que se entiende por variable aleatoria continua aquella donde la probabilidad de que tome cualquier valor real es cero. En realidad ya que sabemos  que el resultado que tome una variable aleatoria en cada realizaci?n del experimento es un numero, una forma de entender dicha definici?n es identificarnos con la idea de qu ene etse caso el conjutno de valores sobre los que se define la variable aleatoria es tan grande (en el sentido de que no es posible contarlos o hacerlos coincidir con numeros enteros positivos) que la logica dicta que la probabilidad de que X pueda tomar uno de esos valores tiende a cer y para efectos practicos es cero.
+
+Un ejemplo puede ayudar a aclara la idea.  Sabemos que la medicion de la inflaci?n es discreta (al final se obtiene un dato), pero como esta puede ser cualquier numero (inclusive en un rango determinado, digamos 1 y 5%), es conveniente tratarla como una variable continua, ya que la mecanica de las variables discretas en engorroso (esto es, tendriamos un listado muy pero muy grande de posibles realizaci?n de la inflaci?n (variable alearoia) cada una con una probabilidad peque?isima de ocurrencia).
+
+Para el caso de las variables aleatorias continuas se define una funcion de desidad de probabilidad, que proporciona al igual que el caso anterior, informaci?n  sobre los posibles valores de la variable aleatoria. Sin embargo, dado que no tiene sentido analizar la ocurrencia de un solo valor de X, se analiza en este caso la posibilidad de que el valor que tome x este incluido en un rango de valores.
+
+En este caso dado dos constantes a y b, entonces P(a<=x<=b) ("la probabilidad de que x este entre a y b)  es el area bajo la fdp entre los puntos a y b. gr?ficamente, 
+
+
+
+1.2.2	Distrubuciones conjuntas, distribuciones condicionales e independencia.
+1.2.3	Caracter?sticas de las distribuciones de probabilidad.
+1.2.4	Caracteristicas de las distribuciones conjuntas y de las condicionales. 
+1.2.5	Algunas distribuciones de probabilidad de uso com?n.
+
+
+
+# Modelo de regresi?n simple (MRLS)
+
+## Definiciones, especificaci?n y supuestos del MRLS
+
+## Especificaci?n: Supuestos Modelo de Regresi?n Lineal
+
+1. Linealidad en los par?metros
+
+$$ y_i = \beta_1 + \beta_2 x_i +\varepsilon_i$$
+
+2. Exogeneidad de $x_i$
+
+$$ E[\varepsilon_i |x_i ]=0$$
+
+  Consecuencia: $Cov(x_i,\varepsilon_i) = 0$
+
+3. Homoced?sticidad
+
+$$var(\varepsilon_i|x_i)=\sigma^2$$
+
+4. No correlaci?n serial
+
+$$cov(\varepsilon_i , \varepsilon_j)=0$$
+5. Distribuci?n del error es normal
+$$\varepsilon_i \sim N(0,\sigma^2)$$
+
+## Funci?n de Regresi?n Poblacional
+- Dado los supuestos, el inter?s radica en la estimaci?n de esta funci?n:
+
+$$E[y_i|x_i]=\beta_1+\beta_2x_i$$
+
+
+## Estimaci?n de los par?metros del MRLS y el estimador de m?nimos cuadrados ordinarios (MCO)
+
+
+## Derivaci?n estimadores de MCO
+$$min\ SRC=\sum_{i=1}^{N} \varepsilon_i^2=\sum_{i=1}^{N}(y_i -\beta_1-\beta_2x_i)^2  $$
+
+Condiciones de primer orden:
+
+$$\frac{\partial SRC}{\partial\beta_1} = -2\sum(y_i-\beta_1-\beta_2x_i)$$
+
+
+$$\frac{\partial SRC}{\partial\beta_2} = -2\sum(y_i-\beta_1-\beta_2x_i)x_i$$
+
+Existen $b_1$ y $b_2$, que dada la muestra en particular, satisfacen las ecuaciones anteriores:
+
+$$-2\sum(y_i-b_1-b_2x_i)=0$$
+
+$$-2\sum(y_i-b_1-b_2x_i)x_i=0$$
+Estas ecuaciones son conocidas como las ecuaciones normales
+
+## Estimadores de MCO
+
+- Resolviendo el sistema anterior
+$$b_1 = \bar{y}-b_2\bar{x}$$
+
+$$b_2 = \frac{\sum(y_i -\bar{y})(x_i-\bar{x})}{\sum (x-\bar{x})^2} $$
+
+- Con estos estimados se obtiene la funci?n de regresi?n muestral, la estimaci?n de la poblacional
+
+$$\hat{y_i}=b_1+b_2x_i$$
+
+
+## Propiedades de los estimadores de MCO
+
+### Son estimadores lineales de los datos:
+
+a. Para $b_2$ se tiene:
+
+$$b_2 = \frac{\sum(y_i -\bar{y})(x_i-\bar{x})}{\sum (x-\bar{x})^2} 
+=\frac{\sum(x_i-\bar{x})y_i}{\sum(x_i-\bar{x})^2}-\frac{\sum(x_i-\bar{x})\bar{y}}{\sum(x_i-\bar{x})^2}
+$$
+
+definiendo:
+$$w_i=\frac{(x_i-\bar{x})}{\sum(x_i-\bar{x})^2} $$
+
+se tiene que:
+
+$$b_2=\sum w_iy_i$$
+
+
+b. Para $b_1$ se tiene
+
+$$b_1 =\bar{y}-b_2\bar{x}$$
+
+sustituyendo
+
+$$b_1 =  \bar{y}-\bar{x}\sum w_i y_i $$
+
+
+
+### Insesgamiento
+
+a. Para $b_2$ se tiene
+
+$$b_2 = \sum w_iy_i$$
+
+La especificaci?n del MRL es $y_i=\beta_1+\beta_2x_i+\varepsilon_i$. Sustituyendo,
+
+$$b_2 = \sum w_i(\beta_1+\beta_2x_i+\varepsilon_i)$$
+
+$$b_2 = \beta_1\sum w_i+\beta_2\sum w_ix_i+\sum w_i\varepsilon_i $$
+
+note que:
+
+a. $$\sum w_i=\sum \frac{(x_i-\bar{x})}{\sum(x_i-\bar{x})^2}=\frac{\sum(x_i-\bar{x})}{\sum(x_i-\bar{x})^2}=0$$
+
+
+b. $$\sum w_ix_i=  \frac{\sum (x_i-\bar{x})x_i}{\sum(x_i-\bar{x})^2}$$
+
+trabajando con el numerador:
+
+$$\sum(x_i-\bar{x})x_i=\sum(x_i^2-\bar{x}x_i)=\sum x_i^2-\bar{x}\sum x_i=\sum x_i^2 - n\bar{x}^2=\sum x_i^2 - n\bar{x}^2+n\bar{x}^2-n\bar{x}^2$$
+
+$$=\sum x_i^2 -2n\bar{x}^2+n\bar{x}^2=\sum(x_i-\bar{x})^2$$
+
+Por lo tanto
+$$\sum w_ix_i=  \frac{\sum (x_i-\bar{x})x_i}{\sum(x_i-\bar{x})^2}=1$$
+
+Entonces
+
+$$b_2=\beta_2+\sum w_i\varepsilon_i$$
+
+aplicando valor esperado,
+
+$$E[b_2|x_i]=\beta_2+E[\sum w_i\varepsilon_i|x_i]$$
+
+Analizando el segundo termino
+
+$$E[\sum w_i\varepsilon_i|x_i]=E[w_1\varepsilon_1+...+w_N\varepsilon_N|x_i]=E[w_1\varepsilon_1|x_1]+...+E[w_N\varepsilon_N|x_N]=w_1E[\varepsilon_1|x_1]+...+w_NE[\varepsilon_N|x_N]$$
+dado el supuesto $E[\varepsilon_i|x_i]=0$, entonces
+
+
+$$E[\sum w_i\varepsilon_i|x_i]=0$$
+Por tanto,
+$$E[b_2|x_i]=\beta_2$$
+Es decir, es un estimador insesgado.
+
+
+b. Para $b_1$ se tiene
+
+$$b_1=\bar{y}-b_2\bar{x}=\beta_1+\beta_2\bar{x}+\bar{\varepsilon}-b_2\bar{x}=\beta_1+(\beta_2-b_2)\bar{x}+\bar{\varepsilon}$$
+
+
+$$E[b_1|x_i]=\beta_1+E[(\beta_2-b_2)\bar{x}|x_i]+E[\bar{\varepsilon}|x_i]$$
+
+$$E[b_1|x_i]=\beta_1$$
+
+### Varianza y covarianza de los estimadores
+
+###Varianza de $b_2$
+
+$$var[b_2|x_i]=E[(b_2-\beta_2)^2|x_i]=E[(\sum w_i\varepsilon_i)^2|x_i]$$
+
+note que:
+
+$$(\sum w_i\varepsilon_i)^2=(w_1\varepsilon_1+w_2\varepsilon_2+...+w_N\varepsilon_N)^2=(w_1^2\varepsilon_1^2+...+w_N^2\varepsilon_N^2+2w_1\varepsilon_1\times w_2\varepsilon_2+...)$$
+dados los supuestos (i) $E[\varepsilon_i^2|x_i]=\sigma^2$ y $cov(\varepsilon_i,\varepsilon_j|x_i)=E[\varepsilon_i\varepsilon_j|x_i]=0$, se tiene que:
+$$var[b_2|x_i]=E[(b_2-\beta_2)^2|x_i]$$
+
+$$=E[(\sum w_i\varepsilon_i)^2|x_i]$$
+
+$$=E[(w_1^2\varepsilon_1^2+...+w_N^2\varepsilon_N^2+2w_1\varepsilon_1\times w_2\varepsilon_2+...)|x_i]$$
+$$=w_1^2E[\varepsilon_1^2|x_i]+...+w_N^2E[\varepsilon_N^2|x_i]$$
+
+$$=w_1^2 \sigma^2+...+w_N^2\sigma^2=\sigma^2\sum w_i^2$$
+
+note que:
+$$\sum w_i^2=\sum \left(\frac{(x_i-\bar{x})}{\sum(x_i-\bar{x})^2}\right)^2=\frac{\sum(x_i -\bar{x})^2}{(\sum(x_i-\bar{x})^2)^2}=\frac{1}{\sum(x_i-\bar{x})^2}$$
+
+entonces:
+
+$$var[b_2|x_i]=\frac{\sigma^2}{\sum(x_i-\bar{x})^2}$$
+
+### Varianza de $b_1$:
+
+$$var[b_1|x_i]=E[(b_1-\beta_1)^2|x_i]$$
+
+
+$$=E\left[((\beta_2-b_2)\bar{x}+\bar{\varepsilon})^2\right|x_i]$$
+
+$$=E[(\beta_2-b_2)^2\bar{x}^2+\bar{\varepsilon}^2+(\beta_2-b_2)\bar{x}\bar{\varepsilon}|x_i]$$
+
+$$=\bar{x}^2E[(\beta_2-b_2)^2|x_i]+E[\bar{\varepsilon}^2|x_i]$$
+
+$$=\bar{x}^2var(b_2|x_i)+\frac{\sigma^2}{N}$$
+
+$$=\bar{x}^2\frac{\sigma^2}{\sum(x_i-\bar{x})^2}+\frac{\sigma^2}{N}$$
+
+$$=\sigma^2\left[ \frac{\bar{x}^2}{\sum(x_i-\bar{x})^2}+\frac{1}{N}\right]$$
+
+
+$$=\sigma^2\left[\frac{N\bar{x}^2+\sum(x_i-\bar{x})^2}{N\sum(x_i-\bar{x})^2}\right]$$
+
+$$=\sigma^2\left[\frac{N\bar{x}^2+\sum x_i^2-2\bar{x}\sum x_i+N\bar{x}^2}{N\sum(x_i-\bar{x})^2}\right]$$
+
+$$=\sigma^2\left[\frac{N\bar{x^2}+\sum x_i^2-2N\bar{x}^2+N\bar{x}^2}{N\sum(x_i-\bar{x})^2}\right]$$
+
+$$=\sigma^2\left[\frac{\sum x_i^2}{N\sum(x_i-\bar{x})^2}\right]$$
+
+
+###Covarianza entre $b_1$ y $b_2$:
+
+$$cov(b_1,b_2)=E[(b_1-\beta_1)(b_2-\beta_2)|x_i]=E[((\beta_2-b_2)\bar{x}+\bar{\varepsilon})(\sum w_i\varepsilon_i)|x_i]$$
+
+
+$$cov(b_1,b_2)=E[(b_1-\beta_1)(b_2-\beta_2)|x_i]=E[(-(b_2-\beta_2)\bar{x}+\bar{\varepsilon})(\sum w_i\varepsilon_i)|x_i]$$
+
+
+$$=E[-\bar{x}(\sum w_i\varepsilon_i)^2+\bar{\varepsilon}(\sum w_i\varepsilon_i)|x_i]$$
+
+
+$$=-\bar{x}E[(\sum w_i\varepsilon_i)^2|x_i]=-\bar{x}\frac{\sigma^2}{\sum (x_i-\bar{x})^2}=\sigma^2\left[-\frac{\bar{x}}{\sum(x_i-\bar{x})^2}\right]$$
+
+En ese ?ltimo paso utilizamos un resultado de m?s arriba.
+
+
+### Estimaci?n de la varianza de los errores
+
+- La varianza del error aleatorio viene dada por:
+
+$$var(\varepsilon_i|x_i)=E[\varepsilon|x_i]=\sigma^2$$
+
+- El equivalente muestral es:
+
+$$\hat{\sigma}^2=\frac{\sum \varepsilon_i ^2}{N}$$
+
+- Dado que $\varepsilon_i$ no son observables, se utilizan los resiudos del modelo, calculados como:
+
+$$e_i=y_i-\hat{y}_i=y_i-b_1-b_2x_i$$
+
+- Entonces,
+$$\hat{\sigma^2}=\frac{\sum e_i^2}{N}$$
+
+
+- En muestras peque?as, este es un estimador sesgado. El estimado insesgado de la varianza del error, toma en consideraci?n la p?rdida de grados de libertad. Que en el caso del MRL simple, es N-2.
+
+$$\hat{\sigma^2}=\frac{\sum e_i^2}{N-2}$$
+
+
+
+## Inferencia en el MRL
+
+En el proceso de obtenci?n de los estimadores de MCO vimos que estos son variables aleatorias, cuya distribuci?n analizamos en la secci?n anterior. Al ser funci?n de los datos, los estimadores son tambi?n influenciados con el error de la muestra. En ese sentido cuando usamos los estimadores de MCO, obtenemos un estimado del par?metro desconocido y nos preguntamos si la estimaci?n que tenemos es una representaci?n razonable del par?metro desconocido. Visto de otra forma, nos preguntamos si el valor que estimamos es diferente a un valor dado del par?metro poblacional. Dado lo mencionado anteriormente, necesitamos proveer o incorporar la informacion del error muestral para responder la pregunta de cu?n diferente es nuetsro valor estimado de un valor hipotetico del parametro desconocido. Este es parte del proceso de inferencia descrito anteriiormente, el cual constaba de tres etapas:
+
+1) El problema de estimaci?n de los par?metros desconocidos.
+
+2) Contraste de hip?tesis relativas al valor desconocido del par?metro.
+
+3) Predicci?n de los resultados del modelo.
+
+Existen dos enfoques para realizar inferencia en el modelo de regresi?n lineal:
+
+1) Estimaci?n de intervalos de confianza
+
+2) Contraste de hip?tesis.
+
+### Estimaci?n de Intervalos
+
+Consiste en una herramienta para crear rangos de valores, en los que el par?metro desconocido es probable que se encuentre.
+
+El punto de partida es recordar que si se cumplen los supuestos para el modelo de regresi?n lineal simple (MRLS), los estimadores siguen una distribuci?n normal.
+
+Por ejemplo, en el caso del estimador de la pendiente del modelo, $b_2$:
+
+$$b_2 \sim N\left(\beta_2,\frac{\sigma^2}{\sum (x_i-\bar{x})^2}\right)$$
+
+Sustrayendo la media y diviendo por la desviaci?n est?ndar. Es decir, 'normalizando' o 'tipificando' $b_2$, se tiene
+
+$$Z=\frac{b_2-\beta_2}{\sqrt{\frac{\sigma^2}{\sum(x_i-\bar{x})^2}}}\sim N(0,1)$$
+
+Utilizando la tabla de probabilidades normal que:
+
+$$P(-1.96\leq Z \leq 1.96)= 0.95$$
+
+Sustituyendo
+
+$$
+P\left( -1.96\leq \frac{b_2-\beta_2}{\sqrt{\frac{\sigma^2}{\sum(x_i-\bar{x})^2}}} \leq 1.96\right) = 0.95
+$$
+
+
+Premultiplicando ambos lados dentro de la expresion anterior por $\sqrt{\frac{\sigma^2}{\sum(x_i-\bar{x})^2}}$, se tiene que
+
+$$P\left( -1.96\times \sqrt{\frac{\sigma^2}{\sum(x_i-\bar{x})^2}}\leq b_2-\beta_2 \leq 1.96\times \sqrt{\frac{\sigma^2}{\sum(x_i-\bar{x})^2}}\right) = 0.95$$
+
+Restando $b_2$ y m?ltiplicando por $-1$, se tiene:
+
+$$P\left( b_2-1.96\times\sqrt{\frac{\sigma^2}{\sum(x_i-\bar{x})^2}}\leq \beta_2 \leq b2+1.96\times\sqrt{\frac{\sigma^2}{\sum(x_i-\bar{x})^2}}\right) = 0.95$$
+
+
+Esta expresi?n define un intervalo que tiene probabilidad 0.95 de contener el par?metro poblacional. Significa, que si se toman m?ltiples muestras, 95% de estos intervalos contendr?an el verdadero valor del par?metro.
+
+Note que el intervalo considera, adem?s del valor estimado del coeficiente $b_2$, dos fuentes de error. Una de ellas, no es controlada por el investigador, y depende de la varianza del error y de la variabilidad de la variable dependiente. La otra fuente de incertidumbre, es controlada por el investigador. Se refiere al nivel del error dispuesto a tolerar. Mientras menos error est? dispuesto a tolerar, menor ubicar? su nivel de confianza.
+
+
+Note que para la construcci?n del intervalo anterior, se asume que se conoce $\sigma^2$ (la varianza del error del modelo). En la pr?ctica no disponemos de dicho par?metro. En su lugar utilizamos su valor estimado, que lo obtenemos usanod su estimador muestral:
+
+$$\hat{\sigma}^2=\frac{\sum e_i^2}{N-2}$$
+
+donde $e_i = y_i-b_1-b_2x_i$ y cuya distribuci?n es una Chi cuadrada, con N-2 grados de libertad. Esto es as?, pues recuerde que los errores se distribuyen como una normal, y de acuerdo a lo visto en el ap?ndice una variable Chi cuadrada es la suma de variables normales elevadas al cuadrado.
+
+Reemplazando $\sigma^2$ por $\hat{\sigma}^2$, en la definici?n se obtiene una variable aleatoria con distribucion t y N-2 grados de libertad.
+
+
+$$t=\frac{b_2-\beta_2}{\sqrt{\frac{\sigma^2}{\sum(x_i-\bar{x})^2}}}\sim N(0,1)$$
+
+
+
+## An?lisis de regresi?n m?ltiple (MRLM)
+
+## Definiciones, supuestos y an?lisis en el MRLM
+
+## M?s sobre las propiedades de muestra finita del estimador de MCO: eficiencia de MCO y el teorema de Gauss - Markov.
+
+## Propiedades asint?ticas o de muestra grande de MCO.
+
+## Consistencia de MCO
+
+## Eficiencia asint?tica
+
+## Inferencia en el MRLM
+
+##Distribuci?n muestral de MCO
+
+## Herramientas para realizar constrastes de hip?tesis:
+
+## Estimaci?n de intervalos de confianza
+
+## Constrastes de hip?tesis
+
+## Contraste de un par?metro o una sola restricci?n: la prueba t
+
+## Constraste de m?s de una restricci?n: la prueba F
+
+## Temas adicionales sobre el MRLM
+
+### Forma funcional
+
+### Bondad de ajuste y selecci?n de regresores
+
+### Predicci?n y an?lisis de residual
+
+### Informaci?n cualitativa: regresores binarios.
+
+# Evaluaci?n del MRLM
+
+## Multicolinealidad
+
+## Heterocedasticidad
+
+## Error de Especificaci?n
+
+## Regresores end?genos y la estimaci?n usando variables instrumentales
+
+# Modelos con variables dependientes limitadas
+ 
+## Variables dependientes binarias: modelos Probit y LogIt
+
+## Variables dependientes censuradas: modelo Tobit
+
+# Modelos para datos de series de tiempo
+
+## Modelos univariados: ARIMA
+
+## Modelos multivariados: Vectores Autoregresivos
+
+
+
+
+
+
+
+
+
+
+
+
+
+
